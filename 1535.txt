@@ -1,0 +1,43 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+class Main{	
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		int K = 99;
+		int[][] f = new int[N+1][K+1];
+		
+		int[] w = new int[N+1];
+		int[] v = new int[N+1];
+		
+		st = new StringTokenizer(br.readLine());
+		for (int i = 1; i < w.length; i++) {
+			w[i]= Integer.parseInt(st.nextToken()); 
+		}
+		
+		st = new StringTokenizer(br.readLine());
+		for (int i = 1; i < w.length; i++) {
+			v[i]= Integer.parseInt(st.nextToken()); 
+		}
+		
+		for (int i = 1; i < w.length; i++) {
+			for (int j = 1; j < K+1; j++) {
+				if( w[i] <= j ) {
+					//f(N, w) = max( f(N-1, w - w(n)) + v(n) , f(N-1, w) )
+
+					f[i][j]= Math.max(f[i-1][j - w[i]] + v[i], f[i-1][j]); 
+				}
+				else {
+					f[i][j]= f[i-1][j]; 
+					
+				}
+			}		
+			}
+		
+		System.out.println(f[N][K]);
+	}
+}
