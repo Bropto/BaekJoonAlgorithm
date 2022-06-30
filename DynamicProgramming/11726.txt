@@ -1,0 +1,35 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+class Main {	
+	private static int n;
+
+	public static void main(String[] args) throws IOException{
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		n = Integer.parseInt(br.readLine()); //input 받은 변수 n에 저장
+
+		if(n == 1) { //피보나치 수열은 첫 항, 둘째 항은 초기값 세팅 필요
+			System.out.println(1);
+		}
+		
+		else if(n == 2){
+			System.out.println(2);
+		}
+		
+		else { //3번째 항부터 점화식으로 세팅
+			int[] myFibonnaci = new int[n];
+			myFibonnaci[0] = 1;
+			myFibonnaci[1] = 2;
+			
+			//배열 인덱스는 0부터 시작하니까 크기 n이면 마지막 인덱스는 n-1
+			for (int i = 2; i <= n-1; i++) {
+				myFibonnaci[i] = (myFibonnaci[i-1] + myFibonnaci[i-2])%10007;
+			}
+
+			System.out.println(myFibonnaci[n-1]%10007);
+		}
+
+	}
+}
