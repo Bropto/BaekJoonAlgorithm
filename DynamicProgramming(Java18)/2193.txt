@@ -1,0 +1,25 @@
+import java.io.*;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int N = Integer.parseInt(br.readLine()); // Input 변수 저장 & 초기화
+
+		if (N == 1) { // N == 1 이면 N+1 이 2이고 dp[2] 는 크기가 3이므로 인덱스 문제 해결을 위해 1을 예외처리
+			System.out.println(1);
+			return;
+		}
+
+		long[] dp = new long[N + 1]; //dp[90] 의 범위가 int 범위를 넘기 때문에 long변수를 사용한다.
+
+		dp[1] = 1; // 초기값 세팅
+		dp[2] = 1;
+		for (int i = 3; i < dp.length; i++) {
+
+			dp[i] = dp[i - 1] + dp[i - 2] ;
+
+		}
+		System.out.println(dp[N]);
+
+	}
+}
