@@ -1,0 +1,45 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+	static Integer dp[]; // null 여부를 조건에 쓰려고 int[] 배열이 아닌 Integer class 사용
+	static int value[]; //각 계단의 점수를 저장할 배열
+
+	//N번째 계단에 도착했을 때 점수의 최댓값을 dp[N]에 저장하는 메소드
+	static int recur(int N) {
+		//아직 탐색하지 않는 N번째 계단일 경우 값 넣기
+		if (dp[N] == null) {
+			dp[N] = Math.max(recur(N - 2), //2칸 밑 계단에서 2칸 점프해서 도달하는 경우
+					recur(N - 3) + value[N - 1]) //1칸 밑 계단에서 1칸 점프해서 도달하는 경우
+
+					+ value[N]; // 도착 계단의 값 더하기
+		}
+		return dp[N];
+	}
+
+	public static void main(String[] args) throws IOException {
+		//속도를 위해 Scanner 대신 BufferedReader 사용
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		//첫 줄 받아오기
+		int N = Integer.parseInt(br.readLine());
+		//dp[1] : 1번계단 도착한 점수. 이렇게 되도록 dp[N] 까지 가지도록 크기 N+1 설정
+		dp = new Integer[N + 1]; 
+		value = new int[N + 1];
+		//각 계단의 값을 value[]에 저장. 인덱스는 혼동을 피하기 위해 value[1] : 1번계단의 점수되도록 설정
+		for (int i = 1; i <= N; i++) {
+			value[i] = Integer.parseInt(br.readLine());
+		}
+
+		dp[0] = 0; // 디폴트 null이므로 0으로 초기화
+		dp[1] = value[1]; //첫 계단이 도착 계단이면 값은 유일
+
+		if (N >= 2) { //N == 1 인 경우 dp[2] 값을 넣으면 인덱스 범위를 초과하므로 N >= 2 인 경우만 초기화
+			dp[2] = value[1] + value[2]; //2번계단이 도착 계단이면 값은 유일
+		}
+
+		System.out.println(recur(N));
+	}
+
+}
